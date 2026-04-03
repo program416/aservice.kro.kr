@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>4단계 보안 인증 (재미용)</title>
+
+<!-- reCAPTCHA API -->
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+<style>
+    body { font-family: Arial; text-align: center; }
+    .box { margin: 20px; }
+    input { padding: 10px; font-size: 16px; }
+    button { padding: 10px; margin-top: 10px; font-size: 16px; }
+</style>
+</head>
+
+<body>
+
+<h2>🔒 4단계 보안 인증 (재미용)</h2>
+
+<!-- 1단계 -->
+<div class="box">
+    <h3>1단계: 6자리 코드</h3>
+    <p id="code1"></p>
+    <input id="input1" placeholder="코드 입력">
+</div>
+
+<!-- 2단계 -->
+<div class="box" id="step2" style="display:none;">
+    <h3>2단계: 엔트리 8자리 키</h3>
+    <input id="input2" placeholder="8자리 입력">
+</div>
+
+<!-- 3단계 (CAPTCHA) -->
+<div class="box" id="step3" style="display:none;">
+    <h3>3단계: CAPTCHA</h3>
+    <div class="g-recaptcha" data-sitekey="6LcL0aQsAAAAAHe92G0pCWdG22PaKxItaaMZeM5u"></div>
+</div>
+
+<!-- 4단계 -->
+<div class="box" id="step4" style="display:none;">
+    <h3>4단계: 9자리 보안 코드</h3>
+    <p id="code4"></p>
+    <input id="input4" placeholder="코드 입력">
+</div>
+
+<button onclick="verify()">확인</button>
+
+<script>
+const SECRET = 739182; // 재미용 비밀값
+
+// 1단계: 6자리 코드
+function getCode1() {
+    let now = new Date();
+    let base = now.getHours() * 60 + now.getMinutes() + SECRET;
+    let val = Math.abs(Math.sin(base) * 1000000);
+    return Math.floor(val % 1000000).toString().padStart(6, '0');
+}
+
+// 4단계: 9자리 코드 (알파벳 + 숫자)
+function getCode4() {
+    let now = new Date();
+    let base = now.getHours() * 60 + now.getMinutes() + SECRET;
+    let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let result = "";
+    for (let i = 0; i < 9; i++) {
+        let index = Math.floor(Math.abs(Math.sin(base + i) * 1000) % chars.length);
+        result += chars[index];
+    }
+    return result;
+}
+
+// 코드 갱신
+function updateCodes() {
+    document.getElementById("code1").innerText = getCode1();
+    document.getElementById("code4").innerText = getCode4();
+}
+updateCodes();
+setInterval(updateCodes, 1000);
+
+// 단계 진행
+let stage = 1;
+
+function verify() {
+    // 1단계
+    if (stage === 1) {
+        if (input1.value === getCode1()) {
+            alert("1단계 통과!");
+            document.getElementById("step2").style.display = "block";
+            stage = 2;
+        } else alert("코드 틀림");
+    }
+    // 2단계
+    else if (stage === 2) {
+        if (input2.value.length === 8) {
+            alert("2단계 통과!");
+            document.getElementById("step3").style.display = "block";
+            stage = 3;
+        } else alert("8자리 입력 필요");
+    }
+    // 3단계 CAPTCHA
+    else if (stage === 3) {
+        let response = grecaptcha.getResponse();
+        if (response.length === 0) {
+            alert("CAPTCHA 인증 필요");
+        } else {
+            alert("3단계 통과!");
+            document.getElementById("step4").style.display = "block";
+            stage = 4;
+        }
+    }
+    // 4단계
+    else if (stage === 4) {
+        if (input4.value === getCode4()) {
+            alert("🎉 모든 인증 성공!");
+        } else alert("마지막 코드 틀림");
+    }
+}
+</script>
+
+</body>
+</html>
