@@ -20,7 +20,7 @@ function generateKSTToken() {
   const kst = new Date(now.getTime() + 9*60*60*1000);
 
   const year = kst.getFullYear();
-  const month = kst.getMonth(); // 0~11
+  const month = kst.getMonth() + 1; // 0~11
   const day = kst.getDate();
   const hour = kst.getHours();
   const minute = kst.getMinutes();
