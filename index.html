@@ -22,6 +22,11 @@
   span {
     color: red;
     font-weight: 800;
+    animation: ani 0.7 ease-out 1
+  }
+  @keyframes ani {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(720deg); }
   }
 </style>
 </head>
@@ -29,27 +34,30 @@
 <h1>자리 뽑기</h1>
 <h2>참고자료</h2>
 <img src="Img1.png" width="800"><br>
-<button onclick="ppopgi(17)">다시 뽑기</button>
-<div id="chair"></div>
+<button onclick="ppopgi(17)">다시  뽑기</button>
 <script>
-  function ppopgi(num) {
+  function ppopgi(num, delay = 50) {
     if (num >= 0) {
       let listes = ['1', '2', '3', '4', '5', '6', '7', '8'];
       const chair = document.getElementById("chair");
       chair.replaceChildren();
+
       for (let i = 1; i < 9; i++) {
         const li = document.createElement("li");
         const randomIndex = Math.floor(Math.random() * listes.length);
+
         li.innerHTML = `${i}번 학생의 자리는 <span>${listes[randomIndex]}번</span> 입니다.`;
+
         listes.splice(randomIndex, 1);
         chair.appendChild(li);
       }
-      setTimeout(ppopgi(num-1), 200 - (num*12));
+
+      // 👉 점점 느려지게 (delay 증가)
+      setTimeout(() => ppopgi(num - 1, delay + 30), delay);
     }
   }
 
   ppopgi(17);
 </script>
-
 </body>
 </html>
