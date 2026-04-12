@@ -6,56 +6,66 @@
 <style>
   body { 
     font-family: monospace;
-    font-size: 2em;
+    font-size: 1.2em;
     text-align: center;
     margin-top: 50px;
   }
   li {
     border: 3px solid black;
     font-family: "Comic Sans MS", Arial;
-    padding: 10px 10px 10px 10px;
-    margin: 10px 10px 10px 10px;
+    width: 600px;
+    padding: 10px;
+    align-items: center;
+    margin:auto;
   }
   button {
-    font-size: 5rem;
+    font-size: 4rem;
   }
-  span {
-    color: red;
-    font-weight: 800;
-    animation: ani 0.7 ease-out 1
-  }
-  @keyframes ani {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(720deg); }
-  }
+span {
+  font-weight: 800;
+  display: inline-block;
+  animation: spin 5s ease-out 1, rainbow 4s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(21600deg); }
+}
+
+@keyframes rainbow {
+  0%   { color: hsl(0, 100%, 35%); }
+  25%  { color: hsl(90, 100%, 35%); }
+  50%  { color: hsl(180, 100%, 35%); }
+  75%  { color: hsl(270, 100%, 35%); }
+  100% { color: hsl(360, 100%, 35%); }
+}
 </style>
 </head>
 <body>
 <h1>자리 뽑기</h1>
 <h2>참고자료</h2>
 <img src="Img1.png" width="800"><br>
-<button onclick="ppopgi()">다시  뽑기</button>
+<button onclick="ppopgi()">자리 뽑기</button>
+<div id="chair"></div>
 <script>
   function ppopgi() {
-    let listes = ['1', '2', '3', '4', '5', '6', '7', '8'];
     const chair = document.getElementById("chair");
     chair.replaceChildren();
 
-    for (let i = 1; i < 9; i++) {
-      const li = document.createElement("li");
-      const randomIndex = Math.floor(Math.random() * listes.length);
+    let seats = ['1','2','3','4','5','6','7','8'];
 
-      li.innerHTML = `${i}번 학생의 자리는 <span>${listes[randomIndex]}번</span> 입니다.`;
-
-      listes.splice(randomIndex, 1);
-      chair.appendChild(li);
+    // Fisher-Yates Shuffle
+    for (let i = seats.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [seats[i], seats[j]] = [seats[j], seats[i]];
     }
 
-      // 👉 점점 느려지게 (delay 증가)
-      // setTimeout(() => ppopgi(num - 1, delay + 30), dela
+    for (let i = 0; i < 8; i++) {
+      const li = document.createElement("li");
+      li.innerHTML = `${i+1}번 학생의 자리는 <span>${seats[i]}번</span> 입니다.`;
+      chair.appendChild(li);
+    }
   }
-
-  ppopgi();
 </script>
 </body>
 </html>
