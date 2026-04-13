@@ -66,9 +66,9 @@ span {
       chair.appendChild(li);
     }
     const spans = document.querySelectorAll("span");
-
-    spans.forEach((i) => {
-      spans.animationDelay = `${0 - (i * 0.24)}`;
+    
+    spans.forEach((span, index) => {
+      span.style.animationDelay = `${-(index * 0.24)}s`;
     });
   }
 </script>
