@@ -46,9 +46,10 @@ span {
 </head>
 <body>
 <h1>자리 뽑기</h1>
-<button onclick="ppopgi()">자리 뽑기</button>
+<button onclick="ppopgi()" id="btn">자리 뽑기</button>
 <div id="chair"></div>
 <script>
+  const spans = document.querySelectorAll("span");
   function ppopgi() {
     const chair = document.getElementById("chair");
     chair.replaceChildren();
@@ -66,12 +67,19 @@ span {
       li.innerHTML = `${i+1}번 학생의 자리는 <span>${seats[i]}번</span> 입니다.`;
       chair.appendChild(li);
     }
-    const spans = document.querySelectorAll("span");
     
     spans.forEach((span, index) => {
       span.style.animationDelay = `${-4.00 + (index * 0.5)}s`;
     });
   }
+  const btn = document.getElementById("btn");
+  btd.addEventListener("keyup", (e) => {
+    if (e.key === "Enter") {
+      spans.forEach((span) => {
+        span.style.animationDelay = "-16";
+      });
+    }
+  });
 </script>
 </body>
 </html>
