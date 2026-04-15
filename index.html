@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>main-AService</title>
     <script>
-        if (prompt("비밀번호 입력하세요") == "aservice1234T5p") or (window.localStorage.getItem("비번캐시", "True")) {window.localStorage.setItem("비번캐시", "True")} else {
+        if ((prompt("비밀번호 입력하세요") == "aservice1234T5p") || (window.localStorage.getItem("비번캐시", "True"))) {
+            window.localStorage.setItem("비번캐시", "True")
+        } else {
             document.location.href = "haha.html"
         }
     </script>
