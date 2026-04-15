@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <title>my뽑기</title>
 <meta name="viewport" content="width=device-width/2.5, initial-scale=0.88, maximum-scale=7">
+<script>
+  if (sessionStorage.getItem("auth") !== "1") {
+    location.href = "haha.html";
+  }
+</script>
 <style>
   body { 
     font-family: monospace;
