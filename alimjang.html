@@ -21,7 +21,7 @@
     const name = doucment.getElementById("name");
     function changeName() {
       newName = prompt("설정 또는 변경할 이름을 적으세요.",  "알림장")
-      name.innerHTML =`<h1 style=\"font-size: 2.5rem;\" id=\"name\">${newName}</h1>`
+      name.innerHTML = `${newName}`
     }
     // setInterval 안에서 매번 새로운 날짜 객체를 생성해야 시간이 흐릅니다.
     setInterval(() => {
